@@ -1,9 +1,6 @@
 package com.group.libraryapp.temp.fruit;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class FruitController {
@@ -22,5 +19,10 @@ public class FruitController {
     @PutMapping("/api/v1/fruit")
     public void sellFruit(@RequestBody FruitSellRequest request) {
         fruitService.sellFruit(request);
+    }
+
+    @GetMapping("/api/v1/fruit/stat")
+    public FruitStatResponse getFruitStat(@RequestParam String name) {
+        return fruitService.getFruitStat(name);
     }
 }

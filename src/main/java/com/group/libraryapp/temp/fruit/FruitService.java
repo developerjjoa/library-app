@@ -3,6 +3,8 @@ package com.group.libraryapp.temp.fruit;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class FruitService {
 
@@ -23,5 +25,22 @@ public class FruitService {
                 orElseThrow(() -> new IllegalArgumentException("Fruit not found" + request.getId()));
         fruit.sell();
         fruitRepository.save(fruit);
+    }
+
+    @Transactional(readOnly = true)
+    public FruitStatResponse getFruitStat(String name) {
+        List<Fruit> fruits = fruitRepository.findAllByName(name);
+
+        long salesAmount = fruits.stream()
+                .filter(Fruit::isSell)
+                .mapToLong(Fruit::getPrice)
+                .sum();
+
+        long notSalesAmount = fruits.stream()
+                .filter(fruit -> !fruit.isSell())
+                .mapToLong(Fruit::getPrice)
+                .sum();
+
+        return new FruitStatResponse(salesAmount, notSalesAmount);
     }
 }
