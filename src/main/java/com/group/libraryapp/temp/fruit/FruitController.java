@@ -25,4 +25,6 @@ public class FruitController {
     public FruitStatResponse getFruitStat(@RequestParam String name) {
         return fruitService.getFruitStat(name);
     }
+
+    //여기까지 커밋
 }
